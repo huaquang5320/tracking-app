@@ -1,4 +1,3 @@
--- V8__alter_workout_sessions.sql
 ALTER TABLE workout_sessions
     ADD COLUMN started_at TIMESTAMP,
     ADD COLUMN ended_at TIMESTAMP;
