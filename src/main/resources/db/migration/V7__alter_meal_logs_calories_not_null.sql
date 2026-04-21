@@ -1,0 +1,3 @@
+ALTER TABLE meal_logs
+    ALTER COLUMN calories SET NOT NULL,
+    ALTER COLUMN food_name DROP NOT NULL;
