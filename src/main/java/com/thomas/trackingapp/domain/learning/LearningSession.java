@@ -1,20 +1,19 @@
-package com.thomas.trackingapp.domain.workout;
+package com.thomas.trackingapp.domain.learning;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "workout_sessions")
+@Table(name = "learning_sessions")
 @Getter
 @Setter
 @NoArgsConstructor
-public class WorkoutSession {
+public class LearningSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,20 +22,23 @@ public class WorkoutSession {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "started_at")
-    private LocalDateTime startedAt;
+    @Column(name = "topic", nullable = false)
+    private String topic;
 
-    @Column(name = "ended_at")
-    private LocalDateTime endedAt;
+    @Column(name = "source")
+    private String source;
+
+    @Column(name = "duration_min", nullable = false)
+    private Integer durationMin;
 
     @Column(name = "note")
     private String note;
 
+    @Column(name = "logged_date", nullable = false)
+    private LocalDate loggedDate;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WorkoutExercise> exercises = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
