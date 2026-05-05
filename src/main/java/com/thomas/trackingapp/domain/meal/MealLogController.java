@@ -11,6 +11,7 @@ import com.thomas.trackingapp.domain.meal.dto.MealDailySummary;
 import com.thomas.trackingapp.domain.meal.dto.MealLogRequest;
 import com.thomas.trackingapp.domain.meal.dto.MealLogResponse;
 import com.thomas.trackingapp.domain.meal.dto.MealLogUpdateRequest;
+import com.thomas.trackingapp.domain.meal.dto.MealRecentResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,15 @@ public class MealLogController {
         Long userId = 1L;
         MealDailySummary summary = mealLogService.getDailySummary(userId, date);
         return ResponseEntity.ok(summary);
+    }
+
+    // GET /api/meals/recent?limit=10
+    @GetMapping("/recent")
+    public ResponseEntity<List<MealRecentResponse>> getRecentMeals(
+            @RequestParam(defaultValue = "10") int limit) {
+        Long userId = 1L;
+        List<MealRecentResponse> recent = mealLogService.getRecentMeals(userId, limit);
+        return ResponseEntity.ok(recent);
     }
 
     // PUT /api/meals/{id}

@@ -12,6 +12,7 @@ import com.thomas.trackingapp.domain.meal.dto.MealDailySummary;
 import com.thomas.trackingapp.domain.meal.dto.MealLogRequest;
 import com.thomas.trackingapp.domain.meal.dto.MealLogResponse;
 import com.thomas.trackingapp.domain.meal.dto.MealLogUpdateRequest;
+import com.thomas.trackingapp.domain.meal.dto.MealRecentResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -97,5 +98,15 @@ public class MealLogService {
                 .filter(v -> v != null)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         return new MealDailySummary(totalCalories, totalProtein, totalCarb, totalFat);
+    }
+
+    // 6. Recent — top N unique meals theo food_name (mới nhất trước),
+    //    dùng để render chip quick-log ở FE
+    public List<MealRecentResponse> getRecentMeals(Long userId, int limit) {
+        int safeLimit = Math.max(1, Math.min(limit, 30));
+        return mealLogRepository.findRecentDistinctByFoodName(userId, safeLimit)
+                .stream()
+                .map(MealRecentResponse::from)
+                .collect(Collectors.toList());
     }
 }
